@@ -33,6 +33,10 @@ jobs:
                 python -m pip install --upgrade pip
                 pip install -r requirements.txt
             
+            - name: Set up Environment Variables
+              run: |
+                  echo "AzureWebJobsStorage=${{ secrets.AzureWebJobsStorage }}" >> $GITHUB_ENV
+            
             - name: Archive project files
               run: |
                 zip -r functionapp.zip .
