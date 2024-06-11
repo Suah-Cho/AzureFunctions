@@ -10,7 +10,8 @@
       "Host.Startup": "Error",
       "Host.Executor": "Error",
       "Host.Triggers": "Error",
-      "Microsoft": "Error"
+      "Microsoft": "Error",
+      "Azure.Storage": "Error"
     },
     "applicationInsights": {
       "samplingSettings": {
