@@ -1,0 +1,40 @@
+name: Deploy Azure Function App
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Set up Python
+              uses: actions/setup-python@v2
+              with:
+                python-version: '3.8'
+            
+            - name: Install dependencies
+              run: |
+                python -m pip install --upgrade pip
+                pip install -r requirements.txt
+            
+            - name: Set up Enviroment Variables
+              run: |
+                export AzureWebJobsStorage=${{ secrets.AzureWebJobsStorage }}
+            
+            - name: Archive project files
+              run: |
+                zip -r functionapp.zip .
+
+            - name: Deploy to Azure Function App
+              uses: azure/webapps-deploy@v2
+              with:
+                app-name: 'suafunctions'
+                package: functionapp.zip
+                publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_34029191F0504C78A89A4D3182E65D38 }}
+              
