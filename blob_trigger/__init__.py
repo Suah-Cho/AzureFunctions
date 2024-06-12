@@ -9,6 +9,7 @@ from azure.storage.blob import BlobServiceClient
 import os
 
 AzureWebJobsStorage = os.environ['AzureWebJobsStorage']
+AZURE_VM_SSH_Key = os.environ['AZURE_VM_SSH_Key']
 BlobService = BlobServiceClient.from_connection_string(AzureWebJobsStorage)
 QueueService = QueueServiceClient.from_connection_string(AzureWebJobsStorage)
 
@@ -17,7 +18,7 @@ def getCon():
         tunnel = SSHTunnelForwarder(
             ('40.82.144.200', 22),
             ssh_username='azureuser',
-            ssh_pkey='~/.ssh/sua-vm_key.pem',
+            ssh_pkey=AZURE_VM_SSH_Key,
             remote_bind_address=('sua-db.postgres.database.azure.com', 5432)
         )
 

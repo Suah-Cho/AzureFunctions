@@ -9,6 +9,7 @@ env:
     AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
     PYTHON_VERSION: '3.8' # set this to the python version to use (supports 3.6, 3.7, 3.8)
     AzureWebJobsStorage: ${{ secrets.AzureWebJobsStorage }}
+    AZURE_VM_SSH_Key: ${{ secrets.AZURE_VM_SSH_Key }}
 
 jobs:
     build-and-deploy:
@@ -36,6 +37,7 @@ jobs:
             - name: Set up Environment Variables
               run: |
                   echo "AzureWebJobsStorage=${{ secrets.AzureWebJobsStorage }}" >> $GITHUB_ENV
+                  echo "AZURE_VM_SSH_Key=${{ secrets.AZURE_VM_SSH_Key }}" >> $GITHUB_ENV
             
             - name: Archive project files
               run: |
