@@ -4,14 +4,16 @@ import pandas as pd
 from io import StringIO
 import psycopg2
 from sshtunnel import SSHTunnelForwarder
-from azure.storage.queue import QueueServiceClient
+# from azure.storage.queue import QueueServiceClient
 from azure.storage.blob import BlobServiceClient
 import os
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 AzureWebJobsStorage = os.environ['AzureWebJobsStorage']
 AZURE_VM_SSH_Key = os.environ['AZURE_VM_SSH_Key']
 BlobService = BlobServiceClient.from_connection_string(AzureWebJobsStorage)
-QueueService = QueueServiceClient.from_connection_string(AzureWebJobsStorage)
+# QueueService = QueueServiceClient.from_connection_string(AzureWebJobsStorage)
 
 def getCon():
     try:
@@ -38,6 +40,8 @@ def getCon():
         return None
 
 def main(myblob: func.InputStream):
+
+    logging.info("!!!!!!PYTHON BLOB TRIGGER FUNCTION STARTED!!!!!!")
 
     blob_service_client = BlobService.get_blob_client(container=myblob.container, blob=myblob.name)
 
