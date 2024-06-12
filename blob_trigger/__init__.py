@@ -18,7 +18,7 @@ def getCon():
         tunnel = SSHTunnelForwarder(
             ('40.82.144.200', 22),
             ssh_username='azureuser',
-            ssh_pkey=AZURE_VM_SSH_Key,
+            ssh_pkey="ssh_key.pem",
             remote_bind_address=('sua-db.postgres.database.azure.com', 5432)
         )
 
