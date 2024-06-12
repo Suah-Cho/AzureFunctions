@@ -36,7 +36,7 @@ def getCon():
 
         return con
     except Exception as e:
-        logging.error(f"Error connecting to database: {e}")
+        logging.error(f"Error connecting to database: {e}", exc_info=True)
         return None
 
 def main(myblob: func.InputStream):
@@ -66,7 +66,7 @@ def main(myblob: func.InputStream):
         logging.info(f"Blob {myblob.name} processed and metadata updated.")
 
     except Exception as e:
-        logging.error(f"Error processing blob: {e}")
+        logging.error(f"Error processing blob: {e}", exc_info=True)
         # try:
         #     queue_client = QueueService.get_queue_client('failed-data')
         #     logging.info(f"Queue client created: {queue_client}")
@@ -96,7 +96,7 @@ def insert_data(df):
         con.commit()
         logging.info("Data inserted successfully.")
     except Exception as e:
-        logging.error(f"Error inserting data: {e}")
+        logging.error(f"Error inserting data: {e}", exc_info=True)
         raise e
     finally:
         if cur:
