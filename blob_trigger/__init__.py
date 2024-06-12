@@ -62,13 +62,13 @@ def main(myblob: func.InputStream):
 
     except Exception as e:
         logging.error(f"Error processing blob: {e}")
-        try:
-            queue_client = QueueService.get_queue_client('failed-data')
-            logging.info(f"Queue client created: {queue_client}")
-            queue_client.send_message(blob_content)
-            logging.info("Failed data sent to Queue Storage.")
-        except Exception as e:
-            logging.error(f"Error sending to Queue Storage: {e}")
+        # try:
+        #     queue_client = QueueService.get_queue_client('failed-data')
+        #     logging.info(f"Queue client created: {queue_client}")
+        #     queue_client.send_message(blob_content)
+        #     logging.info("Failed data sent to Queue Storage.")
+        # except Exception as e:
+        #     logging.error(f"Error sending to Queue Storage: {e}")
 
 def insert_data(df):
     con = None
