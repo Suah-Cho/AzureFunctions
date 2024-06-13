@@ -4,4 +4,4 @@
 
 azure-functions
 psycopg2
-psycoph2-binary
+psycopg2-binary
