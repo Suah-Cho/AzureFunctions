@@ -1,15 +1,19 @@
 import azure.functions as func
 from azure.storage.blob import BlobServiceClient
+from opencensus.ext.azure.log_exporter import AzureLogHandler
 
-import logging
+import logging 
 import os
 import psycopg2
 import pandas as pd
 from io import StringIO
 import sshtunnel
 
+
 # Environment variables
 storage_connection_string = os.environ["CONNECT_STRING"]
+application_connection_string = os.environ["APPLICATION_CONNECTION_STRING"]
+
 
 ssh_host = os.environ["SSH_HOST"]
 ssh_username = os.environ["SSH_USERNAME"]
@@ -19,8 +23,21 @@ db_name = os.environ["DB_NAME"]
 db_user = os.environ["DB_USER"]
 db_password = os.environ["DB_PASSWORD"]
 
+
 app = func.FunctionApp()
 
+
+# set up logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+
+# Azure Log Handler
+azure_handler = AzureLogHandler(application_connection_string)
+logger.addHandler(azure_handler)
+
+
+# insert blob to db
 def insert_blob_to_db(df, con, blob_service_client, container_client, blob):
     try:
         cur = con.cursor()
@@ -35,7 +52,7 @@ def insert_blob_to_db(df, con, blob_service_client, container_client, blob):
                         (row['device_id'], device_name, row['value'], row['data_type'], data_type_name))
         cur.execute("COMMIT;")
 
-        logging.info("Data inserted successfully")
+        logger.info("Data inserted successfully")
 
         cur.close()
 
@@ -47,11 +64,11 @@ def insert_blob_to_db(df, con, blob_service_client, container_client, blob):
             new_blob_client.start_copy_from_url(blob_client.url)
             blob_client.delete_blob()
 
-            logging.info(f"{blob.name} - Blob moved to done")
+            logger.info(f"{blob.name} - Blob moved to done")
         except Exception as e:
-            logging.error(f"Failed to move blob: {e}")
+            logger.error(f"Failed to move blob: {e}")
     except Exception as e:
-        logging.error(f"Failed to insert data: {e}")
+        logger.error(f"Failed to insert data: {e}")
         
 
 def process_blob(blob, blob_service_client, container_client, con):
@@ -63,7 +80,7 @@ def process_blob(blob, blob_service_client, container_client, con):
 
 
 def main(mytimer: func.TimerRequest) -> None:
-    logging.info("Python Blob trigger function processed.")
+    logger.info("Python Blob trigger function processed.")
     try:
         # Connect to the database
         tunnel = sshtunnel.SSHTunnelForwarder(
@@ -83,7 +100,7 @@ def main(mytimer: func.TimerRequest) -> None:
             password=db_password
         )
 
-        logging.info("Connection established")
+        logger.info("Connection established")
 
         try:
             # Create BlobServiceClient
@@ -101,19 +118,10 @@ def main(mytimer: func.TimerRequest) -> None:
 
         except Exception as e:
             # Failed to read the blob content
-            logging.error(f"Failed to read the blob content: {e}")
+            logger.error(f"Failed to read the blob content: {e}")
     except Exception as e:
         # Failed to connect to the database
-        logging.error(f"Database Connections Failed!!!: {e}")
+        logger.error(f"Database Connections Failed!!!: {e}")
     
-    logging.info("Python Blob trigger function executed.")
+    logger.info("Python Blob trigger function executed.")
 
-
-# @app.blob_trigger(arg_name="myblob", path="data/{name}", connection="AzureWebJobsStorage")
-# def blob_trigger_func(myblob: func.InputStream):
-    
-
-# '''
-# 14:00 ~ 15:00 - pair programming
-# 디프 알고리즘(?)
-# '''
