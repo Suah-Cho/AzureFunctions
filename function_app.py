@@ -19,7 +19,7 @@ db_password = os.environ["DB_PASSWORD"]
 def timer_trigger(myTimer: func.TimerRequest) -> None:
 
     logging.info('Python timer trigger function executed.')
-    logging.error('This is an error message.')
+    logging.error('!!This is an error message!!')
 
     try:
         # Connect to the database
