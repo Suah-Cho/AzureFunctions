@@ -80,7 +80,7 @@ def process_blob(blob, blob_service_client, container_client, con):
 
 
 def main(mytimer: func.TimerRequest) -> None:
-    logger.info("Python Blob trigger function processed.")
+    logger.error("Python Blob trigger function processed.")
     try:
         # Connect to the database
         tunnel = sshtunnel.SSHTunnelForwarder(
