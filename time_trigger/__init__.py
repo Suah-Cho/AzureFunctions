@@ -62,8 +62,7 @@ def process_blob(blob, blob_service_client, container_client, con):
     insert_blob_to_db(df, con, blob_service_client, container_client, blob)
 
 
-@app.timer_trigger(schedule="0 */1 * * * *", arg_name="mytimer", run_on_startup=True, use_monitor=False)
-def timer_trigger_func(mytimer: func.TimerRequest) -> None:
+def main(mytimer: func.TimerRequest) -> None:
     logging.info("Python Blob trigger function processed.")
     try:
         # Connect to the database
