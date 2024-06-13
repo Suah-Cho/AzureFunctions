@@ -22,25 +22,25 @@ app = func.FunctionApp()
 def timer_trigger(myTimer: func.TimerRequest) -> None:
     logging.error('Python timer trigger function executed.')
 
-    try:
-        logging.info("-------TRY CONNCTION TO DB------")
-        tunnel = sshtunnel.SSHTunnelForwarder(
-            (ssh_host, 22),
-            ssh_username=ssh_username,
-            ssh_pkey=ssh_key,
-            remote_bind_address=(db_host, 3306)
-        )
-        tunnel.start()
+    # try:
+    #     logging.info("-------TRY CONNCTION TO DB------")
+    #     tunnel = sshtunnel.SSHTunnelForwarder(
+    #         (ssh_host, 22),
+    #         ssh_username=ssh_username,
+    #         ssh_pkey=ssh_key,
+    #         remote_bind_address=(db_host, 3306)
+    #     )
+    #     tunnel.start()
 
-        conn = psycopg.connect(
-            host='localhost',
-            user=db_user,
-            password=db_password,
-            db=db_name,
-            port=tunnel.local_bind_port
-        )
+    #     conn = psycopg.connect(
+    #         host='localhost',
+    #         user=db_user,
+    #         password=db_password,
+    #         db=db_name,
+    #         port=tunnel.local_bind_port
+    #     )
 
-        logging.info("-------DB CONNECTION SUCCESS------")
+    #     logging.info("-------DB CONNECTION SUCCESS------")
 
-    except Exception as e:
-        logging.error(f"DB CONNECTION ERROR: {e}")
+    # except Exception as e:
+    #     logging.error(f"DB CONNECTION ERROR: {e}")
