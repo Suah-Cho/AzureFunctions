@@ -1,8 +1,8 @@
 import logging
 import azure.functions as func
 import os
-import sshtunnel
-import psycopg
+# import sshtunnel
+# import psycopg
 
 
 ssh_host = os.environ["SSH_HOST"]
