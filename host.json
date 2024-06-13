@@ -6,11 +6,6 @@
         "isEnabled": true,
         "excludedTypes": "Request"
       }
-    },
-    "logLevel": {
-      "default": "Warning",
-      "Host.Results": "Error",
-      "Function": "Information"
     }
   },
   "extensionBundle": {
