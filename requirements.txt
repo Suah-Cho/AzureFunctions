@@ -3,3 +3,7 @@
 # Manually managing azure-functions-worker may cause unexpected issues
 
 azure-functions
+psycopg[all]
+psycopg_binary
+psycopg_pool
+sshtunnel
