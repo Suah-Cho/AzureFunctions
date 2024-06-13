@@ -5,6 +5,6 @@
 azure-functions
 sshtunnel
 pandas
-psycopg2
+psycopg[binary]
 azure-storage-blob
 opencensus-ext-azure
