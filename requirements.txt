@@ -7,3 +7,4 @@ sshtunnel
 pandas
 psycopg2
 azure-storage-blob
+opencensus-ext-azure
