@@ -9,7 +9,7 @@ from io import StringIO
 import sshtunnel
 
 # Environment variables
-storage_connection_string = os.environ["AzureWebJobsStorage"]
+storage_connection_string = os.environ["CONNECT_STRING"]
 
 ssh_host = os.environ["SSH_HOST"]
 ssh_username = os.environ["SSH_USERNAME"]
