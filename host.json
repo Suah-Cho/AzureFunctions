@@ -1,22 +1,16 @@
 {
   "version": "2.0",
   "logging": {
-    "logLevel": {
-      "default": "Error",
-      "Function": "Information",
-      "Host.Results": "Error",
-      "Host.Aggregator": "Error",
-      "Host.General": "Error",
-      "Host.Startup": "Error",
-      "Host.Executor": "Error",
-      "Host.Triggers": "Error",
-      "Microsoft": "Error",
-      "Azure.Storage": "Error"
-    },
     "applicationInsights": {
       "samplingSettings": {
-        "isEnabled": true
+        "isEnabled": true,
+        "excludedTypes": "Request"
       }
+    },
+    "logLevel": {
+      "default": "Warning",
+      "Host.Results": "Error",
+      "Function": "Information"
     }
   },
   "extensionBundle": {

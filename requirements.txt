@@ -6,4 +6,4 @@ azure-functions
 sshtunnel
 pandas
 psycopg2
-azure-storage-queue
+azure-storage-blob

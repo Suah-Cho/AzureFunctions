@@ -9,7 +9,13 @@ env:
     AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
     PYTHON_VERSION: '3.8' # set this to the python version to use (supports 3.6, 3.7, 3.8)
     AzureWebJobsStorage: ${{ secrets.AzureWebJobsStorage }}
-    AZURE_VM_SSH_Key: ${{ secrets.AZURE_VM_SSH_Key }}
+    SSH_HOST: ${{ secrets.SSH_HOST }}
+    SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+    SSH_KEY: ${{ secrets.AZURE_VM_SSH_Key }}
+    DB_HOST: ${{ secrets.DB_HOST }}
+    DB_NAME: ${{ secrets.DB_NAME }}
+    DB_USER: ${{ secrets.DB_USER }}
+    DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
 jobs:
     build-and-deploy:
