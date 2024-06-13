@@ -32,7 +32,7 @@ def timer_trigger(myTimer: func.TimerRequest) -> None:
 
         tunnel.start()
 
-        con = psycopg2.connect(
+        con = psycopg.connect(
             host='localhost',
             port=tunnel.local_bind_port,
             database=db_name,
