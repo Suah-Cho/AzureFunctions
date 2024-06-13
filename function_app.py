@@ -10,3 +10,4 @@ def timer_trigger(myTimer: func.TimerRequest) -> None:
         logging.info('The timer is past due!')
 
     logging.info('Python timer trigger function executed.')
+    logging.error('This is an error message.')
