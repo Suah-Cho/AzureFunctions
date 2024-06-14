@@ -7,7 +7,7 @@ import os
 app = func.FunctionApp()
 
 def getCon():
-    current_dir = os.path.dirname()
+    current_dir = os.path.dirname(os.path.realpath(__file__))
     ssh_key_path = os.path.join(current_dir, 'ssh_key.pem')
 
     logging.info(f"ssh_key_path: {ssh_key_path}")
