@@ -20,7 +20,7 @@ def getCon():
     tunnel = sshtunnel.SSHTunnelForwarder(
         (SSH_HOST, 22),
         ssh_username = SSH_USERNAME,
-        ssh_pkey = SSH_KEY,
+        ssh_pkey = '.ssh_key.pem',
         remote_bind_address = (DB_HOST, 5432),
     ) 
 
