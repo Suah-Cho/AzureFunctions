@@ -1,6 +1,6 @@
 import logging
 import azure.functions as func
-# import psycopg2
+import psycopg2
 import os
 
 app = func.FunctionApp()
@@ -10,7 +10,7 @@ app = func.FunctionApp()
 def timer_trigger(myTimer: func.TimerRequest) -> None:
 
     logging.info('!!!!!!!!!Python timer trigger function executed.!!!!!!!!')
-    logging.error('!!!!!add env!!!!!')
+    logging.error('!!!!!add psycopg2!!!!!')
 
     # SSH_HOST = os.environ['SSH_HOST']
     # SSH_USERNAME = os.environ['SSH_USERNAME']
