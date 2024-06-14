@@ -18,7 +18,7 @@ def getCon():
     SSH_HOST = os.environ['SSH_HOST']
     SSH_USERNAME = os.environ['SSH_USERNAME']
 
-    logging.info(f"SSH_HOST: {SSH_HOST}, SSH_USERNAME: {SSH_USERNAME}")
+    # logging.info(f"SSH_HOST: {SSH_HOST}, SSH_USERNAME: {SSH_USERNAME}")
     DB_HOST = os.environ['DB_HOST']
     DB_USER = os.environ['DB_USER']
     DB_NAME = os.environ['DB_NAME']
