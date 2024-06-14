@@ -1,6 +1,6 @@
 import logging
 import azure.functions as func
-import psycopg2
+# import psycopg2
 import os
 
 app = func.FunctionApp()
