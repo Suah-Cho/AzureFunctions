@@ -7,6 +7,11 @@ import os
 app = func.FunctionApp()
 
 def getCon():
+    current_dir = os.path.dirname()
+    ssh_key_path = os.path.join(current_dir, 'ssh_key.pem')
+
+    logging.info(f"ssh_key_path: {ssh_key_path}")
+
     SSH_HOST = os.environ['SSH_HOST']
     SSH_USERNAME = os.environ['SSH_USERNAME']
     SSH_KEY = os.environ['SSH_KEY']
@@ -20,7 +25,7 @@ def getCon():
     tunnel = sshtunnel.SSHTunnelForwarder(
         (SSH_HOST, 22),
         ssh_username = SSH_USERNAME,
-        ssh_pkey = '.ssh_key.pem',
+        ssh_pkey = ssh_key_path,
         remote_bind_address = (DB_HOST, 5432),
     ) 
 
