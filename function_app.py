@@ -12,12 +12,12 @@ def timer_trigger(myTimer: func.TimerRequest) -> None:
     logging.info('!!!!!!!!!Python timer trigger function executed.!!!!!!!!')
     logging.error('!!!!!add env!!!!!')
 
-    # SSH_HOST = os.environ['SSH_HOST']
-    # SSH_USERNAME = os.environ['SSH_USERNAME']
-    # logging.info(f"SSH_HOST: {SSH_HOST}, SSH_USERNAME: {SSH_USERNAME}")
-    db_connection_string = os.environ['DB_CONNECTION_STRING']
-    logging.info(f"DB_CONNECTION_STRING: {db_connection_string}")
-    logging.error('!!!!I WANNA SEE DB_CONNECTION_STRING!!!!')
+    SSH_HOST = os.environ['SSH_HOST']
+    SSH_USERNAME = os.environ['SSH_USERNAME']
+    logging.info(f"SSH_HOST: {SSH_HOST}, SSH_USERNAME: {SSH_USERNAME}")
+    # db_connection_string = os.environ['DB_CONNECTION_STRING']
+    # logging.info(f"DB_CONNECTION_STRING: {db_connection_string}")
+    # logging.error('!!!!I WANNA SEE DB_CONNECTION_STRING!!!!')
 
     # connect to azure database
     # try:
