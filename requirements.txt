@@ -7,3 +7,4 @@ azure-functions
 psycopg2-binary
 sshtunnel
 azure-storage-blob
+pandas
