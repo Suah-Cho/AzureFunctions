@@ -45,10 +45,38 @@ def getCon():
     return con
 
 
-def process_blob(blob, blob_service_client, container_client, con):
-    blob_client = container_client.get_blob_client(blob.name)
-    blob_content = StringIO(blob_client.download_blob().readall().decode('utf-8'))
-    # df = pd.read_csv(blob_content)
+def insert_blob_to_database(df, con, blob, blob_service_client, container_client):
+    try:
+        cur = con.cursor()
+
+        # Insert DataFrame records one by one.
+        for index, row in df.iterrows():
+            cur.execute("SELECT name FROM devices WHERE device_id = %s;", (row['device_id'],))
+            device_name = cur.fetchone()[0]
+            cur.execute("SELECT kr_name FROM data_types WHERE id = %s;", (row['data_type'],))
+            data_type_name = cur.fetchone()[0]
+            # logging.info(f"Device name: {device_name} - Data type name: {data_type_name}")
+            cur.execute("INSERT INTO gh_data_item (device_id, device_name, value, data_type_id, data_type_name) VALUES (%s, %s, %s, %s, %s);",
+                        (row['device_id'], device_name, row['value'], row['data_type'], data_type_name))
+            
+        con.commit()
+
+        logging.info(f"----------------Blob {blob.name} inserted to database successfully.------------")
+        cur.close()
+
+        # Move the blob to the done folder
+        try:
+            blob_client = container_client.get_blob_client(blob.name)
+            new_blob_name = "done/" + blob.name[len("todo-"):]
+            new_blob_client = blob_service_client.get_blob_client("data", new_blob_name)
+            new_blob_client.start_copy_from_url(blob_client.url)
+            blob_client.delete_blob()
+
+            logging.info(f"-------------------Blob {blob.name} moved to done folder.---------------")
+        except Exception as e:
+            logging.error(f"BLOB MOVE ERROR: {e}")
+    except Exception as e:
+        logging.error(f"DATABASE INSERT ERROR: {e}")
 
 
 
@@ -77,6 +105,10 @@ def timer_trigger(myTimer: func.TimerRequest) -> None:
             # Read the blob content
             for blob in blob_list:
                 logging.info(f"Blob name: {blob.name}")
+                blob_client = container_client.get_blob_client(blob.name)
+                blob_content = StringIO(blob_client.download_blob().readall().decode('utf-8'))
+                df = pd.read_csv(blob_content)
+                insert_blob_to_database(df, con, blob, blob_service_client, container_client)
         except Exception as e:
             logging.error(f"AZURE STORAGE ERROR: {e}")
     except Exception as e:
