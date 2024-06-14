@@ -12,6 +12,6 @@ def timer_trigger(myTimer: func.TimerRequest) -> None:
     logging.info('!!!!!!!!!Python timer trigger function executed.!!!!!!!!')
     logging.error('!!!!!add env!!!!!')
 
-    # SSH_HOST = os.environ('SSH_HOST')
-    # SSH_USERNAME = os.environ('SSH_USERNAME')
-    # logging.info(f"SSH_HOST: {SSH_HOST}, SSH_USERNAME: {SSH_USERNAME}")
+    SSH_HOST = os.environ('SSH_HOST')
+    SSH_USERNAME = os.environ('SSH_USERNAME')
+    logging.info(f"SSH_HOST: {SSH_HOST}, SSH_USERNAME: {SSH_USERNAME}")
