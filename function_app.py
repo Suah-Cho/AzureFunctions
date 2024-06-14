@@ -17,6 +17,7 @@ def timer_trigger(myTimer: func.TimerRequest) -> None:
     # logging.info(f"SSH_HOST: {SSH_HOST}, SSH_USERNAME: {SSH_USERNAME}")
     db_connection_string = os.environ['DB_CONNECTION_STRING']
     logging.info(f"DB_CONNECTION_STRING: {db_connection_string}")
+    logging.error('!!!!I WANNA SEE DB_CONNECTION_STRING!!!!')
 
     # connect to azure database
     # try:
