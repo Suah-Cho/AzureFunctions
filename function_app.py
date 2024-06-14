@@ -18,7 +18,7 @@ def getCon():
     SSH_HOST = os.environ['SSH_HOST']
     SSH_USERNAME = os.environ['SSH_USERNAME']
 
-    # logging.info(f"SSH_HOST: {SSH_HOST}, SSH_USERNAME: {SSH_USERNAME}")
+    logging.info(f"SSH_HOST: {SSH_HOST}, SSH_USERNAME: {SSH_USERNAME}")
     DB_HOST = os.environ['DB_HOST']
     DB_USER = os.environ['DB_USER']
     DB_NAME = os.environ['DB_NAME']
@@ -77,6 +77,7 @@ def insert_blob_to_database(df, con, blob, blob_service_client, container_client
             logging.error(f"BLOB MOVE ERROR: {e}")
     except Exception as e:
         logging.error(f"DATABASE INSERT ERROR: {e}")
+        raise e
 
 
 
@@ -85,7 +86,6 @@ def insert_blob_to_database(df, con, blob, blob_service_client, container_client
 def timer_trigger(myTimer: func.TimerRequest) -> None:
 
     logging.info('!!!!!!!!!Python timer trigger function executed.!!!!!!!!')
-    logging.error('!!!!!GET CONNECTION TO DATABASE WITH SSHTUNNEL< PSYCOPG2!!!!!')
 
     # connect to azure database
     try:
