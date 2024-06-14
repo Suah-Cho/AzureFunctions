@@ -3,6 +3,7 @@ import azure.functions as func
 import psycopg2
 import sshtunnel
 import os
+from azure.storage.blob import BlobServiceClient
 
 app = func.FunctionApp()
 
@@ -20,7 +21,7 @@ def getCon():
     DB_USER = os.environ['DB_USER']
     DB_NAME = os.environ['DB_NAME']
     DB_PASSWORD = os.environ['DB_PASSWORD']
-    logging.error(f'DB_HOST: {DB_HOST}, DB_USER: {DB_USER}, DB_NAME: {DB_NAME}, DB_PASSWORD: {DB_PASSWORD}')
+    logging.info(f'DB_HOST: {DB_HOST}, DB_USER: {DB_USER}, DB_NAME: {DB_NAME}, DB_PASSWORD: {DB_PASSWORD}')
     
     tunnel = sshtunnel.SSHTunnelForwarder(
         (SSH_HOST, 22),
@@ -51,14 +52,28 @@ def timer_trigger(myTimer: func.TimerRequest) -> None:
     # connect to azure database
     try:
         con = getCon()
-        cur = con.cursor()
-        logging.info("Connected to database")
+        # cur = con.cursor()
+        logging.info("!!!!!!!!!!DATABSE CONNECTED SUCCESSFULLY!!!!!!!!!!")
+        try:
+            # Create BlobServiceClient
+            blob_service_client = BlobServiceClient.from_connection_string(os.environ['AzureWebJobsStorage'])
 
-        cur.execute("SELECT * FROM gh_data_item limit 3;")
-        rows = cur.fetchall()
-        for row in rows:
-            logging.info(row)
-        cur.close()
-        con.close()
+            # Get the container Client
+            container_client = blob_service_client.get_container_client("data")
+
+            # List the blobs in the container
+            blob_list = container_client.list_blobs(name_starts_with="todo-")
+
+            # Read the blob content
+            for blob in blob_list:
+                logging.info(f"Blob name: {blob.name}")
+        except Exception as e:
+            logging.error(f"AZURE STORAGE ERROR: {e}")
+        # cur.execute("SELECT * FROM gh_data_item limit 3;")
+        # rows = cur.fetchall()
+        # for row in rows:
+        #     logging.info(row)
+        # cur.close()
+        # con.close()
     except Exception as e:
-        logging.error(f"DB CONNECT Error: {e}")
+        logging.error(f"DATABASE CONNECT ERROR: {e}")
