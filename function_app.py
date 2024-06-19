@@ -81,7 +81,7 @@ def insert_blob_to_database(df, con, blob, blob_service_client, container_client
 
 
 
-@app.schedule(schedule="* */3 * * * *", arg_name="myTimer", run_on_startup=True,
+@app.schedule(schedule="* */1 * * * *", arg_name="myTimer", run_on_startup=True,
               use_monitor=False) 
 def timer_trigger(myTimer: func.TimerRequest) -> None:
 
