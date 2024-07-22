@@ -29,7 +29,7 @@ def EventGridTrigger(azeventgrid: func.EventGridEvent):
         acr_registry = os.environ['ACR_REGISTRY']
         acr_username = os.environ['ACR_USERNAME']
         acr_password = os.environ['ACR_PASSWORD']
-        repo = os.environ['GITHUB_REPO']
+        
 
         command = f"""
         az acr login --name {acr_registry} --username {acr_username} --password {acr_password}
@@ -41,7 +41,7 @@ def EventGridTrigger(azeventgrid: func.EventGridEvent):
           cd resources
         else
           echo "Directory does not exist"
-          git clone {repo} /home/azureuser/cicd
+          git clone https://github.com/Suah-Cho/cicd.git /home/azureuser/cicd
           cd /home/azureuser/cicd/resources
         fi
         """
