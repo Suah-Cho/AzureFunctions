@@ -29,7 +29,6 @@ def EventGridTrigger(azeventgrid: func.EventGridEvent):
         acr_registry = os.environ['ACR_REGISTRY']
         acr_username = os.environ['ACR_USERNAME']
         acr_password = os.environ['ACR_PASSWORD']
-        pat = os.environ['PAT']
         repo = os.environ['GITHUB_REPO']
 
         command = f"""
