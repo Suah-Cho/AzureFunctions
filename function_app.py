@@ -6,7 +6,7 @@ import os
 from azure.storage.blob import BlobServiceClient
 from io import StringIO
 import pandas as pd
-import requests
+import paramiko
 
 app = func.FunctionApp()
 
@@ -15,8 +15,27 @@ def EventGridTrigger(azeventgrid: func.EventGridEvent):
     logging.info('Python EventGrid trigger processed an event')
     logging.info(f"EventGridEvent: {azeventgrid.get_json()}")
 
-    
+    host = os.environ['SSH_HOST']
+    username = os.environ['SSH_USERNAME']
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+    ssh_key_path = os.path.join(current_dir, 'ssh_key.pem')
 
+    try:
+        client = paramiko.SSHClient()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+        client.connect(host, username=username, key_filename=ssh_key_path)
+
+        stdin, stdout, stderr = client.exec_command('ls')
+
+        output = stdout.read().decode('utf-8')
+        logging.info(f"Output: {output}")
+
+        client.close()
+    except Exception as e:
+        logging.error(f"SSH ERROR: {e}")
+
+        
 
 def getCon():
     current_dir = os.path.dirname(os.path.realpath(__file__))
