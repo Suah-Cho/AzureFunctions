@@ -36,10 +36,12 @@ def EventGridTrigger(azeventgrid: func.EventGridEvent):
         az acr login --name {acr_registry} --username {acr_username} --password {acr_password}
         cd /home/azueruser/cicd
         if [ -d "/home/azueruser/cicd" ]; then
+          echo "Directory exists"
           cd /home/azueruser/cicd
           git pull
           cd resources
         else
+          echo "Directory does not exist"
           git clone https://{pat}@github.com/{repo}.git /home/azureuser/cicd
           cd /home/azureuser/cicd/resources
         fi
