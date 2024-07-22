@@ -115,7 +115,6 @@ def insert_blob_to_database(df, con, blob, blob_service_client, container_client
 #     except Exception as e:
 #         logging.error(f"DATABASE CONNECT ERROR: {e}")
 
-slack_url = os.environ['SLACK_URL']
 
 @app.event_grid_trigger(arg_name="azeventgrid")
 def EventGridTrigger(azeventgrid: func.EventGridEvent):
