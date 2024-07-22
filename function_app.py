@@ -15,6 +15,9 @@ def EventGridTrigger(azeventgrid: func.EventGridEvent):
     logging.info('Python EventGrid trigger processed an event')
     logging.info(f"EventGridEvent: {azeventgrid.get_json()}")
 
+    image = azeventgrid.get_json()['target']['repository']
+    tag = azeventgrid.get_json()['target']['tag']
+
     host = os.environ['SSH_HOST']
     username = os.environ['SSH_USERNAME']
     current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -39,6 +42,7 @@ def EventGridTrigger(azeventgrid: func.EventGridEvent):
           cd /home/azueruser/cicd
           git pull
           cd resources
+          {image}_tag={tag} docker compose up -d --no-deps {image}
         else
           echo "Directory does not exist"
           git clone https://github.com/Suah-Cho/cicd.git /home/azureuser/cicd
