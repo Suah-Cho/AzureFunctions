@@ -26,7 +26,26 @@ def EventGridTrigger(azeventgrid: func.EventGridEvent):
 
         client.connect(host, username=username, key_filename=ssh_key_path)
 
-        stdin, stdout, stderr = client.exec_command('ls')
+        acr_registry = os.environ['ACR_REGISTRY']
+        acr_username = os.environ['ACR_USERNAME']
+        acr_password = os.environ['ACR_PASSWORD']
+        pat = os.environ['PAT']
+        repo = os.environ['GITHUB_REPO']
+
+        command = f"""
+        az acr login --name {acr_registry} --username {acr_username} --password {acr_password}
+        cd /home/azueruser/cicd
+        if [ -d "/home/azueruser/cicd" ]; then
+          cd /home/azueruser/cicd
+          git pull
+          cd resources
+        else
+          git clone https://{pat}@github.com/{repo}.git /home/azureuser/cicd
+          cd /home/azureuser/cicd/resources
+        fi
+        """
+
+        stdin, stdout, stderr = client.exec_command(command)
 
         output = stdout.read().decode('utf-8')
         logging.info(f"Output: {output}")
@@ -35,7 +54,7 @@ def EventGridTrigger(azeventgrid: func.EventGridEvent):
     except Exception as e:
         logging.error(f"SSH ERROR: {e}")
 
-        
+
 
 def getCon():
     current_dir = os.path.dirname(os.path.realpath(__file__))
