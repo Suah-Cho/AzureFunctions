@@ -6,6 +6,7 @@ import os
 from azure.storage.blob import BlobServiceClient
 from io import StringIO
 import pandas as pd
+import requests
 
 app = func.FunctionApp()
 
@@ -114,7 +115,11 @@ def insert_blob_to_database(df, con, blob, blob_service_client, container_client
 #     except Exception as e:
 #         logging.error(f"DATABASE CONNECT ERROR: {e}")
 
+slack_url = os.environ['SLACK_URL']
+
 @app.event_grid_trigger(arg_name="azeventgrid")
 def EventGridTrigger(azeventgrid: func.EventGridEvent):
     logging.info('Python EventGrid trigger processed an event')
+    resp = requests.post(url=slack_url, json={"text": f"EventGridEvent: {azeventgrid.get_json()}"})
+    logging.info(f"Slack response: {resp}")
     logging.info(f"EventGridEvent: {azeventgrid.get_json()}")
