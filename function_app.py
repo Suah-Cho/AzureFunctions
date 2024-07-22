@@ -113,3 +113,8 @@ def timer_trigger(myTimer: func.TimerRequest) -> None:
             logging.error(f"AZURE STORAGE ERROR: {e}")
     except Exception as e:
         logging.error(f"DATABASE CONNECT ERROR: {e}")
+
+@app.schedule(schedule="0 */1 * * * *", arg_name="myTimer", run_on_startup=True, use_monitor=False)
+def minnn():
+
+    return "Hello, World!"
