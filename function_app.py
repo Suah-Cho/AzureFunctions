@@ -42,7 +42,7 @@ def EventGridTrigger(azeventgrid: func.EventGridEvent):
           cd resources
         else
           echo "Directory does not exist"
-          git clone https://{pat}@github.com/{repo}.git /home/azureuser/cicd
+          git clone {repo} /home/azureuser/cicd
           cd /home/azureuser/cicd/resources
         fi
         """
