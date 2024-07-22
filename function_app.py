@@ -81,38 +81,38 @@ def insert_blob_to_database(df, con, blob, blob_service_client, container_client
 
 
 
-@app.schedule(schedule="* */1 * * * *", arg_name="myTimer", run_on_startup=True,
-              use_monitor=False) 
-def timer_trigger(myTimer: func.TimerRequest) -> None:
+# @app.schedule(schedule="* */1 * * * *", arg_name="myTimer", run_on_startup=True,
+#               use_monitor=False) 
+# def timer_trigger(myTimer: func.TimerRequest) -> None:
 
-    logging.info('!!!!!!!!!Python timer trigger function executed.!!!!!!!!')
+#     logging.info('!!!!!!!!!Python timer trigger function executed.!!!!!!!!')
 
-    # connect to azure database
-    try:
-        con = getCon()
-        # cur = con.cursor()
-        logging.info("!!!!!!!!!!DATABSE CONNECTED SUCCESSFULLY!!!!!!!!!!")
-        try:
-            # Create BlobServiceClient
-            blob_service_client = BlobServiceClient.from_connection_string(os.environ['AzureWebJobsStorage'])
+#     # connect to azure database
+#     try:
+#         con = getCon()
+#         # cur = con.cursor()
+#         logging.info("!!!!!!!!!!DATABSE CONNECTED SUCCESSFULLY!!!!!!!!!!")
+#         try:
+#             # Create BlobServiceClient
+#             blob_service_client = BlobServiceClient.from_connection_string(os.environ['AzureWebJobsStorage'])
 
-            # Get the container Client
-            container_client = blob_service_client.get_container_client("data")
+#             # Get the container Client
+#             container_client = blob_service_client.get_container_client("data")
 
-            # List the blobs in the container
-            blob_list = container_client.list_blobs(name_starts_with="todo-")
+#             # List the blobs in the container
+#             blob_list = container_client.list_blobs(name_starts_with="todo-")
 
-            # Read the blob content
-            for blob in blob_list:
-                logging.info(f"Blob name: {blob.name}")
-                blob_client = container_client.get_blob_client(blob.name)
-                blob_content = StringIO(blob_client.download_blob().readall().decode('utf-8'))
-                df = pd.read_csv(blob_content)
-                insert_blob_to_database(df, con, blob, blob_service_client, container_client)
-        except Exception as e:
-            logging.error(f"AZURE STORAGE ERROR: {e}")
-    except Exception as e:
-        logging.error(f"DATABASE CONNECT ERROR: {e}")
+#             # Read the blob content
+#             for blob in blob_list:
+#                 logging.info(f"Blob name: {blob.name}")
+#                 blob_client = container_client.get_blob_client(blob.name)
+#                 blob_content = StringIO(blob_client.download_blob().readall().decode('utf-8'))
+#                 df = pd.read_csv(blob_content)
+#                 insert_blob_to_database(df, con, blob, blob_service_client, container_client)
+#         except Exception as e:
+#             logging.error(f"AZURE STORAGE ERROR: {e}")
+#     except Exception as e:
+#         logging.error(f"DATABASE CONNECT ERROR: {e}")
 
 @app.event_grid_trigger(arg_name="azeventgrid")
 def EventGridTrigger(azeventgrid: func.EventGridEvent):
