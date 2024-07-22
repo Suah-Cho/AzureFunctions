@@ -10,6 +10,14 @@ import requests
 
 app = func.FunctionApp()
 
+@app.event_grid_trigger(arg_name="azeventgrid")
+def EventGridTrigger(azeventgrid: func.EventGridEvent):
+    logging.info('Python EventGrid trigger processed an event')
+    logging.info(f"EventGridEvent: {azeventgrid.get_json()}")
+
+    
+
+
 def getCon():
     current_dir = os.path.dirname(os.path.realpath(__file__))
     ssh_key_path = os.path.join(current_dir, 'ssh_key.pem')
@@ -116,7 +124,3 @@ def insert_blob_to_database(df, con, blob, blob_service_client, container_client
 #         logging.error(f"DATABASE CONNECT ERROR: {e}")
 
 
-@app.event_grid_trigger(arg_name="azeventgrid")
-def EventGridTrigger(azeventgrid: func.EventGridEvent):
-    logging.info('Python EventGrid trigger processed an event')
-    logging.info(f"EventGridEvent: {azeventgrid.get_json()}")
