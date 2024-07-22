@@ -18,6 +18,8 @@ def EventGridTrigger(azeventgrid: func.EventGridEvent):
     image = azeventgrid.get_json()['target']['repository']
     tag = azeventgrid.get_json()['target']['tag']
 
+    logging.info(f"Image: {image}, Tag: {tag}")
+
     host = os.environ['SSH_HOST']
     username = os.environ['SSH_USERNAME']
     current_dir = os.path.dirname(os.path.realpath(__file__))
